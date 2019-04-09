@@ -460,6 +460,7 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 			}
 		}
 
+		// 根据指定的 beanName，获取这个 bean 对象中所有的 advisor
 		Advisor[] advisors = buildAdvisors(beanName, specificInterceptors);
 		proxyFactory.addAdvisors(advisors);
 		proxyFactory.setTargetSource(targetSource);
@@ -541,6 +542,7 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 
 	/**
 	 * Resolves the specified interceptor names to Advisor objects.
+	 * 将指定的过滤器名称解析成 advisor 对象
 	 * @see #setInterceptorNames
 	 */
 	private Advisor[] resolveInterceptorNames() {
