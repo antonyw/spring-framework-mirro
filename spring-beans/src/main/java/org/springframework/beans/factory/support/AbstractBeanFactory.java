@@ -252,8 +252,8 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 		}
 
 		else {
-			// Fail if we're already creating this bean instance:
-			// We're assumably within a circular reference.
+			// Fail if we're already creating this bean instance: 如果bean正在创建，则抛出异常
+			// We're assumably within a circular reference. 这种情况我们可以假设存在循环引用
 			// 因为 Spring 只解决单例模式下得循环依赖，在原型模式下如果存在循环依赖则会抛出异常
 			if (isPrototypeCurrentlyInCreation(beanName)) {
 				throw new BeanCurrentlyInCreationException(beanName);
@@ -291,7 +291,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 			}
 
 			try {
-				// 调用 getMergedLocalBeanDefinition() 获取相对应的 BeanDefinition
+				// 调用 getMergedLocalBeanDefinition() 获取 beanName 相对应的 BeanDefinition
 				final RootBeanDefinition mbd = getMergedLocalBeanDefinition(beanName);
 				checkMergedBeanDefinition(mbd, beanName, args);
 
@@ -1647,20 +1647,23 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	/**
 	 * Get the object for the given bean instance, either the bean
 	 * instance itself or its created object in case of a FactoryBean.
+	 * 获取给定bean实例的对象，要么是 bean 实例本身，要么是 FactoryBean 创建的对象。
 	 * @param beanInstance the shared bean instance
 	 * @param name name that may include factory dereference prefix
 	 * @param beanName the canonical bean name
 	 * @param mbd the merged bean definition
-	 * @return the object to expose for the bean
+	 * @return the object to expose for the bean 要为该 bean 暴露的对象
 	 */
 	protected Object getObjectForBeanInstance(
 			Object beanInstance, String name, String beanName, @Nullable RootBeanDefinition mbd) {
 
 		// Don't let calling code try to dereference the factory if the bean isn't a factory.
+		// 若为工厂类引用（name 以 & 开头）
 		if (BeanFactoryUtils.isFactoryDereference(name)) {
 			if (beanInstance instanceof NullBean) {
 				return beanInstance;
 			}
+			// 如果 beanInstance 不是 FactoryBean 类型，则抛出异常
 			if (!(beanInstance instanceof FactoryBean)) {
 				throw new BeanIsNotAFactoryException(transformedBeanName(name), beanInstance.getClass());
 			}

@@ -87,6 +87,7 @@ public abstract class FactoryBeanRegistrySupport extends DefaultSingletonBeanReg
 
 	/**
 	 * Obtain an object to expose from the given FactoryBean.
+	 * 获取给定 FactoryBean 要暴露的对象
 	 * @param factory the FactoryBean instance
 	 * @param beanName the name of the bean
 	 * @param shouldPostProcess whether the bean is subject to post-processing
