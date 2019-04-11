@@ -235,7 +235,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 				}
 				try {
 					// 初始化 bean
-					// 这个过程其实是调用 createBean() 方法
+					// 这个过程其实是调用 createBean() 方法 （外层的匿名内部类）
 					singletonObject = singletonFactory.getObject();
 					newSingleton = true;
 				}

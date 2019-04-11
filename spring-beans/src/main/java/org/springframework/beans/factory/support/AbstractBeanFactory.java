@@ -323,7 +323,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				if (mbd.isSingleton()) {
 					sharedInstance = getSingleton(beanName, () -> {
 						try {
-							//含义是根据给定的 BeanDefinition 和 args实例化一个 bean 对象
+							// 含义是根据给定的 BeanDefinition 和 args实例化一个 bean 对象
 							return createBean(beanName, mbd, args);
 						}
 						catch (BeansException ex) {
@@ -334,6 +334,8 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 							throw ex;
 						}
 					});
+					// 如果上面拿到的 sharedInstance 是一个 FactoryBean，执行下面这个方法才会获取到真实的对象，它实际上是调用了 FactoryBean 中的 getObject
+					// 如果上面拿到的 sharedInstance 是一个普通 bean，则直接返回，没有任何操作
 					bean = getObjectForBeanInstance(sharedInstance, name, beanName, mbd);
 				}
 
@@ -1673,6 +1675,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 		// 现在我们有了bean实例，它可能是普通的bean或FactoryBean
 		// If it's a FactoryBean, we use it to create a bean instance,
 		// unless the caller actually wants a reference to the factory.
+		// 如果是普通 bean 则直接返回
 		if (!(beanInstance instanceof FactoryBean) || BeanFactoryUtils.isFactoryDereference(name)) {
 			return beanInstance;
 		}
