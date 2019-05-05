@@ -181,6 +181,10 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 
 	//---------------------------------------------------------------------
 	// Implementation of BeanFactory interface
+	// getBean 方式会通过显式和隐式两种方式调用
+	// 隐式调用：
+	// 		1. 对于 BeanFactory 来说，对象实例化默认采用延迟加载，当对象A被请求而第一次实例化时，如果它依赖的B/C对象同样没有被实例化，那么容器将先实例化对象B和C
+	// 		2. 对于 ApplicationContext 来说，它启动后会实例化所有beanDefinition，在完成所有beanDefinition实例化之后，紧接着调用所有beanDefinition的getBean方法，完成对象实例化
 	//---------------------------------------------------------------------
 
 	@Override
